@@ -21,6 +21,7 @@ The results are visualized in an interactive **Streamlit** dashboard for easy ex
 
 3. **Dynamic Categorization (LLM-driven)**  
    - Posts were sent to an LLM (GPT-3.5-turbo) to dynamically assign a meaningful topic label.
+   - Each Post is summarized for readability.
    - Categories were cleaned and grouped for dashboard clarity.
 
 4. **Dashboard Visualization**  
