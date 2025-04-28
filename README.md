@@ -1,4 +1,5 @@
 # TeslaSolar_Analysis
+**Live Dashboard Link**: [Open Tesla Solar Dashboard](https://teslasolar-analysis-bxc3fhtgupbrpwpxgtcmmv.streamlit.app/)
 
 **Overview**  
 This project analyzes Tesla Solar customer feedback scraped from Reddit.  
