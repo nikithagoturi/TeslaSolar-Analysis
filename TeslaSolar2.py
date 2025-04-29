@@ -125,18 +125,19 @@ if view_option == 'Overall Analysis':
     sentiment_counts = df['sentiment'].value_counts()
     
     fig2, ax2 = plt.subplots(figsize=(10, 8))
-    sentiment_counts.plot(
-        kind='pie', 
+    ax2.pie(
+        sentiment_counts, 
+        labels=sentiment_counts.index, 
         autopct='%1.1f%%', 
         colors=['lightgreen', 'lightcoral', 'lightskyblue'],
         textprops={'fontsize': 14},
         startangle=90,
-        ax=ax2
+        wedgeprops={'edgecolor': 'black'}
     )
-    ax2.set_ylabel('')
-    plt.title('Sentiment Distribution', fontsize=18)
+    ax2.set_title('Sentiment Distribution', fontsize=18)
     plt.tight_layout()
     st.pyplot(fig2)
+
 
 
     st.markdown("---")
@@ -162,6 +163,14 @@ if view_option == 'Overall Analysis':
         plt.tight_layout()
         st.pyplot(fig3)
 
+        st.markdown("### Explore Negative Subcategories")
+        for subcat in neg_drill.index:
+            subcat_posts = df[(df['sentiment'] == 'Negative') & (df['negative_subcategory'] == subcat)]
+
+            with st.expander(f"{subcat} ({len(subcat_posts)} posts)"):
+                for idx, row in subcat_posts.iterrows():
+                    st.write(f"{row['summary']}")
+
 
     st.markdown("---")
 
@@ -185,6 +194,13 @@ if view_option == 'Overall Analysis':
         plt.grid(axis='y', linestyle='--', alpha=0.7)
         plt.tight_layout()
         st.pyplot(fig4)
+        st.markdown("### Explore Positive Subcategories")
+        for subcat in pos_drill.index:
+            subcat_posts = df[(df['sentiment'] == 'Positive') & (df['positive_subcategory'] == subcat)]
+
+            with st.expander(f"{subcat} ({len(subcat_posts)} posts)"):
+                for idx, row in subcat_posts.iterrows():
+                    st.write(f"{row['summary']}")
 
 
     st.markdown("---")
