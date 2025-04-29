@@ -100,12 +100,23 @@ view_option = st.sidebar.radio("Choose view:", ['Overall Analysis', 'Category An
 # Overall view
 if view_option == 'Overall Analysis':
     st.header('Distribution of Posts by Category')
+
+    # Get counts
     category_counts = df['dashboard_category'].value_counts()
-    
-    fig, ax = plt.subplots()
-    category_counts.plot(kind='bar', color='steelblue', ax=ax)
-    plt.xticks(rotation=45, ha='right')
-    plt.ylabel('Number of Posts')
+
+    # Create a bigger, cleaner plot
+    fig, ax = plt.subplots(figsize=(14, 8))  # wider and taller
+
+    category_counts.plot(kind='bar', color='skyblue', edgecolor='black', ax=ax)
+
+    plt.title('Distribution of Tesla Solar Posts by Category', fontsize=18)
+    plt.xlabel('Dashboard Category', fontsize=14)
+    plt.ylabel('Number of Posts', fontsize=14)
+    plt.xticks(rotation=35, ha='right', fontsize=12)
+    plt.yticks(fontsize=12)
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+
+    plt.tight_layout()
     st.pyplot(fig)
 
     st.markdown("---")
