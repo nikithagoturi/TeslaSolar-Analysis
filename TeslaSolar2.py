@@ -124,10 +124,20 @@ if view_option == 'Overall Analysis':
     st.header('Overall Sentiment Distribution')
     sentiment_counts = df['sentiment'].value_counts()
     
-    fig2, ax2 = plt.subplots()
-    sentiment_counts.plot(kind='pie', autopct='%1.1f%%', colors=['lightgreen', 'lightcoral', 'lightskyblue'], ax=ax2)
-    plt.ylabel('')
+    fig2, ax2 = plt.subplots(figsize=(10, 8))
+    sentiment_counts.plot(
+        kind='pie', 
+        autopct='%1.1f%%', 
+        colors=['lightgreen', 'lightcoral', 'lightskyblue'],
+        textprops={'fontsize': 14},
+        startangle=90,
+        ax=ax2
+    )
+    ax2.set_ylabel('')
+    plt.title('Sentiment Distribution', fontsize=18)
+    plt.tight_layout()
     st.pyplot(fig2)
+
 
     st.markdown("---")
 
@@ -135,19 +145,23 @@ if view_option == 'Overall Analysis':
     if 'Negative' in sentiment_counts.index:
         st.header('Breakdown of Negative Posts')
         neg_drill = df['negative_subcategory'].value_counts()
-
-        fig3, ax3 = plt.subplots()
-        neg_drill.plot(kind='bar', color='lightcoral', ax=ax3)
-        plt.xticks(rotation=45, ha='right')
+    
+        fig3, ax3 = plt.subplots(figsize=(14, 8))  # consistent big size
+        neg_drill.plot(
+            kind='bar', 
+            color='lightcoral', 
+            edgecolor='black', 
+            ax=ax3
+        )
+        plt.title('Negative Post Subcategories', fontsize=18)
+        plt.xlabel('Negative Subcategory', fontsize=14)
+        plt.ylabel('Number of Posts', fontsize=14)
+        plt.xticks(rotation=45, ha='right', fontsize=12)
+        plt.yticks(fontsize=12)
+        plt.grid(axis='y', linestyle='--', alpha=0.7)
+        plt.tight_layout()
         st.pyplot(fig3)
 
-        st.markdown("### Explore Negative Subcategories")
-        for subcat in neg_drill.index:
-            subcat_posts = df[(df['sentiment'] == 'Negative') & (df['negative_subcategory'] == subcat)]
-
-            with st.expander(f"{subcat} ({len(subcat_posts)} posts)"):
-                for idx, row in subcat_posts.iterrows():
-                    st.write(f"{row['summary']}")
 
     st.markdown("---")
 
@@ -155,19 +169,23 @@ if view_option == 'Overall Analysis':
     if 'Positive' in sentiment_counts.index:
         st.header('Breakdown of Positive Posts')
         pos_drill = df['positive_subcategory'].value_counts()
-
-        fig4, ax4 = plt.subplots()
-        pos_drill.plot(kind='bar', color='lightgreen', ax=ax4)
-        plt.xticks(rotation=45, ha='right')
+    
+        fig4, ax4 = plt.subplots(figsize=(14, 8))  # again bigger
+        pos_drill.plot(
+            kind='bar', 
+            color='lightgreen', 
+            edgecolor='black', 
+            ax=ax4
+        )
+        plt.title('Positive Post Subcategories', fontsize=18)
+        plt.xlabel('Positive Subcategory', fontsize=14)
+        plt.ylabel('Number of Posts', fontsize=14)
+        plt.xticks(rotation=45, ha='right', fontsize=12)
+        plt.yticks(fontsize=12)
+        plt.grid(axis='y', linestyle='--', alpha=0.7)
+        plt.tight_layout()
         st.pyplot(fig4)
 
-        st.markdown("### Explore Positive Subcategories")
-        for subcat in pos_drill.index:
-            subcat_posts = df[(df['sentiment'] == 'Positive') & (df['positive_subcategory'] == subcat)]
-
-            with st.expander(f"{subcat} ({len(subcat_posts)} posts)"):
-                for idx, row in subcat_posts.iterrows():
-                    st.write(f"{row['summary']}")
 
     st.markdown("---")
 
@@ -201,11 +219,14 @@ elif view_option == 'Category Analysis':
     st.markdown("---")
     st.header(f'Word Cloud for {selected_category}')
     category_text = ' '.join(filtered_posts['content'].tolist())
-    wordcloud = WordCloud(width=800, height=400, background_color='white').generate(category_text)
-    fig5, ax5 = plt.subplots(figsize=(10, 5))
+    
+    wordcloud = WordCloud(width=1600, height=800, background_color='white').generate(category_text)
+    fig5, ax5 = plt.subplots(figsize=(16, 8))  # nice large wordcloud
     ax5.imshow(wordcloud, interpolation='bilinear')
     ax5.axis('off')
+    plt.tight_layout()
     st.pyplot(fig5)
+
 
 # Search view
 else:
